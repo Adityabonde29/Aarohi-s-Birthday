@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aarohi's Birthday Countdown</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&family=Fredoka+One&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: linear-gradient(rgba(255, 192, 203, 0.7), rgba(255, 182, 193, 0.7)), url('https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #d23369;
+            overflow-x: hidden;
+        }
+
+        /* Loading Screen Styles */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffb6c1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-text {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        .party-popper {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0;
+        }
+
+        .popper-1 {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="%23FFD700" d="M478.9 375.4L429.7 317l-49.1 58.4 49.1 58.4 49.2-58.4zm-437.8 0L82.3 317 33.1 375.4l49.1 58.4 49.1-58.4zM256 0c-9.9 0-19.2 5.8-23.4 14.9L183.8 136H96c-17.7 0-32 14.3-32 32v128c0 17.7 14.3 32 32 32h87.8l48.8 121.1c4.2 9.1 13.5 14.9 23.4 14.9s19.2-5.8 23.4-14.9L328.2 328H416c17.7 0 32-14.3 32-32V168c0-17.7-14.3-32-32-32H328.2L279.4 14.9C275.2 5.8 265.9 0 256 0z"/></svg>');
+            top: 20%;
+            left: 20%;
+            animation: pop 1s 0.2s ease-out forwards;
+        }
+
+        .popper-2 {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="%23FF69B4" d="M478.9 375.4L429.7 317l-49.1 58.4 49.1 58.4 49.2-58.4zm-437.8 0L82.3 317 33.1 375.4l49.1 58.4 49.1-58.4zM256 0c-9.9 0-19.2 5.8-23.4 14.9L183.8 136H96c-17.7 0-32 14.3-32 32v128c0 17.7 14.3 32 32 32h87.8l48.8 121.1c4.2 9.1 13.5 14.9 23.4 14.9s19.2-5.8 23.4-14.9L328.2 328H416c17.7 0 32-14.3 32-32V168c0-17.7-14.3-32-32-32H328.2L279.4 14.9C275.2 5.8 265.9 0 256 0z"/></svg>');
+            top: 30%;
+            right: 25%;
+            animation: pop 1s 0.4s ease-out forwards;
+        }
+
+        .popper-3 {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="%23FF1493" d="M478.9 375.4L429.7 317l-49.1 58.4 49.1 58.4 49.2-58.4zm-437.8 0L82.3 317 33.1 375.4l49.1 58.4 49.1-58.4zM256 0c-9.9 0-19.2 5.8-23.4 14.9L183.8 136H96c-17.7 0-32 14.3-32 32v128c0 17.7 14.3 32 32 32h87.8l48.8 121.1c4.2 9.1 13.5 14.9 23.4 14.9s19.2-5.8 23.4-14.9L328.2 328H416c17.7 0 32-14.3 32-32V168c0-17.7-14.3-32-32-32H328.2L279.4 14.9C275.2 5.8 265.9 0 256 0z"/></svg>');
+            bottom: 25%;
+            left: 30%;
+            animation: pop 1s 0.6s ease-out forwards;
+        }
+
+        .popper-4 {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="%23D23369" d="M478.9 375.4L429.7 317l-49.1 58.4 49.1 58.4 49.2-58.4zm-437.8 0L82.3 317 33.1 375.4l49.1 58.4 49.1-58.4zM256 0c-9.9 0-19.2 5.8-23.4 14.9L183.8 136H96c-17.7 0-32 14.3-32 32v128c0 17.7 14.3 32 32 32h87.8l48.8 121.1c4.2 9.1 13.5 14.9 23.4 14.9s19.2-5.8 23.4-14.9L328.2 328H416c17.7 0 32-14.3 32-32V168c0-17.7-14.3-32-32-32H328.2L279.4 14.9C275.2 5.8 265.9 0 256 0z"/></svg>');
+            bottom: 30%;
+            right: 20%;
+            animation: pop 1s 0.8s ease-out forwards;
+        }
+
+        .popper-5 {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="%23FFFFFF" d="M478.9 375.4L429.7 317l-49.1 58.4 49.1 58.4 49.2-58.4zm-437.8 0L82.3 317 33.1 375.4l49.1 58.4 49.1-58.4zM256 0c-9.9 0-19.2 5.8-23.4 14.9L183.8 136H96c-17.7 0-32 14.3-32 32v128c0 17.7 14.3 32 32 32h87.8l48.8 121.1c4.2 9.1 13.5 14.9 23.4 14.9s19.2-5.8 23.4-14.9L328.2 328H416c17.7 0 32-14.3 32-32V168c0-17.7-14.3-32-32-32H328.2L279.4 14.9C275.2 5.8 265.9 0 256 0z"/></svg>');
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            animation: pop 1s 1s ease-out forwards, bigPop 1s 1.5s ease-out forwards;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes bigPop {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+        }
+
+        /* Main Content Styles */
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            width: 800px;
+            backdrop-filter: blur(5px);
+            border: 2px solid #ffb6c1;
+            animation: fadeIn 1.5s ease-in-out;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+
+        .container.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #d23369;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .birthday-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #e75480;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background-color: #ff69b4;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            min-width: 80px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-5px) scale(1.05);
+            background-color: #ff1493;
+        }
+
+        .countdown-label {
+            font-size: 0.8rem;
+            display: block;
+            margin-top: 0.5rem;
+            font-weight: normal;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .quote-container {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            border-left: 5px solid #ff69b4;
+            animation: slideIn 1s ease-out;
+        }
+
+        .quote {
+            font-style: italic;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .author {
+            margin-top: 0.5rem;
+            font-weight: bold;
+            color: #e75480;
+        }
+
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            opacity: 0;
+            animation: float 6s ease-in infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .birthday-text {
+                font-size: 1.5rem;
+            }
+            
+            .countdown-item {
+                font-size: 1.2rem;
+                padding: 0.8rem 1rem;
+                min-width: 70px;
+            }
+            
+            .quote {
+                font-size: 1rem;
+            }
+
+            .loading-text {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .countdown {
+                gap: 0.5rem;
+            }
+            
+            .countdown-item {
+                font-size: 1rem;
+                padding: 0.6rem 0.8rem;
+                min-width: 60px;
+            }
+            
+            .countdown-label {
+                font-size: 0.7rem;
+            }
+
+            .loading-text {
+                font-size: 1.5rem;
+            }
+
+            .loader {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-text">Preparing Something Special for Aarohi...</div>
+        <div class="loader"></div>
+        <div class="party-popper popper-1"></div>
+        <div class="party-popper popper-2"></div>
+        <div class="party-popper popper-3"></div>
+        <div class="party-popper popper-4"></div>
+        <div class="party-popper popper-5"></div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container" id="mainContainer">
+        <h1>Aarohi's Birthday Countdown</h1>
+        <div class="birthday-text">Almost Time to Pretend You’re Younger!</div>
+        
+        <div class="countdown" id="countdown">
+            <div class="countdown-item">
+                <span id="days">00</span>
+                <span class="countdown-label">Days</span>
+            </div>
+            <div class="countdown-item">
+                <span id="hours">00</span>
+                <span class="countdown-label">Hours</span>
+            </div>
+            <div class="countdown-item">
+                <span id="minutes">00</span>
+                <span class="countdown-label">Minutes</span>
+            </div>
+            <div class="countdown-item">
+                <span id="seconds">00</span>
+                <span class="countdown-label">Seconds</span>
+            </div>
+        </div>
+        
+        <div class="quote-container">
+            <p class="quote" id="daily-quote">"Aarohi, your smile brightens even the darkest days."</p>
+            <p class="author">- Birthday Wishes</p>
+        </div>
+    </div>
+
+    <script>
+        // Show loading screen for 2 seconds then reveal main content
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loadingScreen');
+                const mainContainer = document.getElementById('mainContainer');
+                
+                loadingScreen.style.opacity = '0';
+                
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    mainContainer.classList.add('show');
+                    
+                    // Create floating hearts after loading
+                    createHearts();
+                }, 500);
+            }, 2000);
+        });
+
+        // Set the birthday date (month is 0-indexed, so 0 = January, 11 = December)
+        const birthday = new Date();
+        birthday.setMonth(8); // December
+        birthday.setDate(3); // 25th
+        birthday.setHours(0, 0, 0, 0);
+        
+        // If birthday has passed this year, set for next year
+        const today = new Date();
+        if (today > birthday) {
+            birthday.setFullYear(birthday.getFullYear() + 1);
+        }
+        
+        // Countdown function
+        function updateCountdown() {
+            const now = new Date();
+            const diff = birthday - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            
+            // Change colors when close to birthday
+            if (days <= 7) {
+                document.querySelectorAll('.countdown-item').forEach(item => {
+                    item.style.backgroundColor = '#ff1493';
+                });
+            }
+            
+            // Special message if it's the birthday
+            if (days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
+                document.querySelector('.birthday-text').textContent = "Happy Birthday Aarohi! 🎉";
+            }
+        }
+        
+        // Update countdown every second
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call
+        
+        // Daily quotes array (365 quotes)
+        const quotes = [
+            "Aarohi, your laughter is the melody that brightens every day.",
+            "In a world full of ordinary, you are extraordinary, Aarohi.",
+            "Aarohi, your kindness shines brighter than the sun.",
+            "Every moment with you is a precious gift, Aarohi.",
+            "Aarohi, your spirit sparkles like the stars in the night sky.",
+            "The world is better because you're in it, Aarohi.",
+            "Aarohi, your heart is as beautiful as your smile.",
+            "Your presence is a present, Aarohi, today and every day.",
+            "Aarohi, you make ordinary days feel magical.",
+            "Your energy is contagious, Aarohi, in the best possible way.",
+            "Aarohi, you're the missing piece that makes everything complete.",
+            "With you around, Aarohi, every day feels like a celebration.",
+            "Aarohi, your creativity inspires everyone around you.",
+            "The way you care for others shows your beautiful soul, Aarohi.",
+            "Aarohi, you're like a rainbow - colorful, bright, and always uplifting.",
+            "Your determination is admirable, Aarohi, never change that.",
+            "Aarohi, your positive attitude can light up the darkest room.",
+            "You have a gift for making people feel special, Aarohi.",
+            "Aarohi, your intelligence is only matched by your compassion.",
+            "The world needs more people like you, Aarohi - kind and genuine.",
+            "Aarohi, your friendship is a treasure beyond measure.",
+            "Your courage inspires me every day, Aarohi.",
+            "Aarohi, you have the rare gift of making everyone feel welcome.",
+            "Your smile could power cities, Aarohi - it's that bright!",
+            "Aarohi, you're the definition of grace under pressure.",
+            "Your sense of humor brings joy to so many, Aarohi.",
+            "Aarohi, you turn ordinary moments into beautiful memories.",
+            "Your thoughtfulness never goes unnoticed, Aarohi.",
+            "Aarohi, you have the perfect balance of strength and gentleness.",
+            "Your passion is infectious, Aarohi - it inspires action.",
+            "Aarohi, you're like a lighthouse - guiding others to safety.",
+            "Your resilience in tough times is remarkable, Aarohi.",
+            "Aarohi, you make the complicated seem simple.",
+            "Your generosity knows no bounds, Aarohi.",
+            "Aarohi, you're the calm in the middle of life's storms.",
+            "Your wisdom belies your years, Aarohi.",
+            "Aarohi, you have a knack for saying just what people need to hear.",
+            "Your artistic soul makes the world more beautiful, Aarohi.",
+            "Aarohi, you're the glue that holds people together.",
+            "Your adventurous spirit is truly inspiring, Aarohi.",
+            "Aarohi, you make even mundane tasks feel fun.",
+            "Your loyalty to those you love is unwavering, Aarohi.",
+            "Aarohi, you have a gift for seeing the best in people.",
+            "Your confidence is as radiant as your smile, Aarohi.",
+            "Aarohi, you're like a fine wine - getting better with each year.",
+            "Your patience is a virtue we all admire, Aarohi.",
+            "Aarohi, you have the rare ability to make everyone feel heard.",
+            "Your organizational skills are legendary, Aarohi.",
+            "Aarohi, you bring out the best in everyone around you.",
+            "Your cooking could win awards, Aarohi - it's that good!",
+            // Add more quotes as needed (total 365)
+        ];
+        
+        // Function to get a quote based on the day of the year
+        function getDailyQuote() {
+            const now = new Date();
+            const start = new Date(now.getFullYear(), 0, 0);
+            const diff = now - start;
+            const oneDay = 1000 * 60 * 60 * 24;
+            const dayOfYear = Math.floor(diff / oneDay);
+            
+            // Use day of year to select quote (modulo for our 50 quotes example)
+            const quoteIndex = dayOfYear % quotes.length;
+            return quotes[quoteIndex];
+        }
+        
+        // Set daily quote
+        document.getElementById('daily-quote').textContent = getDailyQuote();
+        
+        // Create floating hearts
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            const heartCount = 20;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.classList.add('heart');
+                
+                // Random properties
+                const size = Math.random() * 20 + 10;
+                const left = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 3 + 3;
+                
+                heart.style.fontSize = `${size}px`;
+                heart.style.left = `${left}%`;
+                heart.style.animationDelay = `${delay}s`;
+                heart.style.animationDuration = `${duration}s`;
+                
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        // Change colors periodically
+        function changeColors() {
+            const colors = ['#ff69b4', '#ff1493', '#d23369', '#e75480', '#ff6b8b'];
+            const countdownItems = document.querySelectorAll('.countdown-item');
+            
+            let currentIndex = 0;
+            
+            setInterval(() => {
+                countdownItems.forEach(item => {
+                    item.style.backgroundColor = colors[currentIndex];
+                });
+                
+                currentIndex = (currentIndex + 1) % colors.length;
+            }, 2000);
+        }
+        
+        // Only change colors if birthday is more than 7 days away
+        const now = new Date();
+        const diffDays = Math.ceil((birthday - now) / (1000 * 60 * 60 * 24));
+        if (diffDays > 7) {
+            changeColors();
+        }
+    </script>
+</body>
+</html>
